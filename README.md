@@ -27,7 +27,7 @@ We welcome contributions from the developer community. If you'd like to contribu
 
 License:
 
-This project is licensed under the (insert license information here).
+SOON.
 
 Disclaimer:
 
