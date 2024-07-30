@@ -139,16 +139,13 @@ function getSubIdInfo(uint256 subId) public view returns (SubIdInfo memory) {
 
 
 contract ContractInstance {
-    // Address of the SubIdManager that deployed this contract
     address public immutable subIdManager;
 
-    // Optional data associated with the sub-ID (can be customized)
     bytes public data;
 
     constructor(bytes memory bytecode, address manager) {
         subIdManager = manager;
 
-        // Deploy the actual sub-ID logic using provided bytecode
         assembly {
             let ptr := add(bytecode, 0x20)
             let size := mload(bytecode)
@@ -157,10 +154,8 @@ contract ContractInstance {
         }
     }
 
-    // Function to receive incoming funds (optional, can be customized)
     fallback() external payable {}
 
-    // Function to receive incoming funds and data (optional, can be customized)
     receive() external payable {
         data = msg.data;
     }
