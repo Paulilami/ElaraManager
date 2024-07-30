@@ -7,7 +7,6 @@ class ElaraSDK {
     this.abi = require('./ElaraFramework.json'); // Replace with path to ElaraFramework ABI
   }
 
-  // Contract interaction functions
 
   async createSubId(dataHash, options = {}) {
     const contract = new this.web3.eth.Contract(this.abi, this.frameworkAddress);
@@ -52,13 +51,12 @@ class ElaraSDK {
     const contract = new this.web3.eth.Contract(this.abi, this.frameworkAddress);
     const owner = await contract.methods.getSubIdOwner(subId).call();
     const deployedContract = await contract.methods.getSubIdContract(subId).call();
-    // ... (retrieve other details if needed)
     return { owner, deployedContract };
   }
 
   async callSubIdFunction(subId, functionName, data) {
     const deployedContract = await this.getSubIdContract(subId);
-    const contract = new this.web3.eth.Contract([], deployedContract); // Use ABI for deployed contract if available
+    const contract = new this.web3.eth.Contract([], deployedContract); 
     const tx = await contract.methods[functionName](data).send({
       from: this.web3.eth.defaultAccount,
     });
@@ -66,13 +64,11 @@ class ElaraSDK {
     return receipt.events.find(event => event.event === 'FunctionCalled').args.returnValue;
   }
 
-  // Utility functions
+
 
   async getFrameworkVersion() {
     const contract = new this.web3.eth.Contract(this.abi, this.frameworkAddress);
-    // Replace with actual version retrieval method based on Elara Framework implementation
-    // (This might involve custom getter functions or event analysis)
-    const version = await contract.methods.getVersion().call(); // Placeholder
+    const version = await contract.methods.getVersion().call(); //placeholder
     return version;
   }
 
@@ -81,8 +77,6 @@ class ElaraSDK {
     const subscription = contract.events[eventName]({ fromBlock: 'latest' }).on('data', callback);
     return subscription;
   }
-
-  // Convenience methods (optional)
 
   async getSubIdFee() {
     const contract = new this.web3.eth.Contract(this.abi, this.frameworkAddress);
@@ -96,18 +90,17 @@ class ElaraSDK {
     return limit;
   }
 
-  // Code generation (for advanced users) - requires additional libraries
 
   async generateSubIdContractInteractionCode(subId) {
     const deployedContract = await this.getSubIdContract(subId);
-    const contract = new this.web3.eth.Contract([], deployedContract); // Use ABI for deployed contract if available
+    const contract = new this.web3.eth.Contract([], deployedContract); 
+    
     const abi = await contract.methods.abi().call();
-    // Leverage a code generation library (e.g., web3-eth-abi) to generate interaction code based on ABI
     const generatedCode = generateInteractionCode(abi);
     return generatedCode;
   }
 
-  // Further Enhancements (for future development)
+
 
   async connectWallet() {
     try {
@@ -125,9 +118,7 @@ class ElaraSDK {
   }
 
   async signTransaction(tx) {
-    // Implement logic for offline signing using a library like web3-eth-accounts
-    // This would require additional user interaction and security considerations.
-  }
+    }
 }
 
 module.exports = ElaraSDK;
